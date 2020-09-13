@@ -1,0 +1,44 @@
+html,body { margin:0; padding:0; height:100%; width:100%; }
+
+#container {
+	height: 500px;
+	width:auto;
+  white-space : nowrap; 
+  overflow : hidden;
+}
+
+#codeLang{
+  margin: 25px 0 0 30px;
+  width: 50px;
+  height: 30px;
+}
+
+#allTests{
+  text-align: center;
+}
+
+.task-list-block {
+  margin-top: 50px;
+  margin-left: 40%;
+  text-align: center;
+  
+
+  width: 20%;
+  height: 100px;
+  background: #F2F2F2;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 2px #fff inset,
+              -1px -1px 2px #fff inset;
+  border-radius: 3px/6px;          
+}
+
+.tasks-a-hrefs{
+  text-decoration: none;
+  color: black;
+  vertical-align: middle;
+  line-height: 100px;
+  font-size: 30px;
+}
+
+/* disable tag matching */
+.ace_editor .ace_marker-layer .ace_bracket { display: none }

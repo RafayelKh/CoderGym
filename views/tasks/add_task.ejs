@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/style.css">
+  <title>CoderGym</title>
+</head>
+
+<body>
+
+  <h2 style="text-align:center;">Create Task</h2>
+  <form method="POST" action="/add-task" id="create_task">
+    <input style="padding:10px; display:block; margin: 0 auto" type="text" placeholder="Title" name="title" required> <br>
+    <textarea placeholder="Description" name="description" form="create_task"
+      style="max-width: 300px; max-height:100px; min-height:99px; min-width:299px; padding:10px; display:block; margin: 0 auto" required></textarea> <br>
+    <div style="margin: 0 45%">
+      <p>Select language</p>
+      <input type="radio" name="language" value="javascript" required>
+      <label for="javascript">JS</label><br>
+      <input type="radio" name="language" value="python" required>
+      <label for="py">Python</label><br>
+      <input type="radio" name="language" value="java" required>
+      <label for="java">Java</label><br>
+    </div>
+    <h2 style="text-align:center;">Tests</h2>
+    <% for(var i=0; i < 5; i++){ %>
+      <h4 style="padding:5px; margin-left:10px; line-height:0; text-align:center">Test N<%= i+1%></h4>
+      <div style="display:flex; margin-left:28%">
+        
+        <input name="input_test_<%= i %>" id="input_test_<%= i %>" type="text" placeholder="inputs(seperate inputs via ',' comma)" style="padding:10px; display:block; padding-right:10px; margin-bottom:10px; margin-right:15px; width:270px">
+        <input name="output_test_<%= i %>" id="output_test_<%= i %>" type="text" placeholder="output" style="padding:10px; display:block; margin-bottom:10px; width:270px">
+      </div>
+    <% } %>
+  <input type="submit" id="sub_but" value="Add task" style="padding:10px; display:block; margin: 0 auto">
+  </form>
+
+      <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+      <script src="/script.js"></script>
+</body>
+
+</html>
