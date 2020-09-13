@@ -5,7 +5,8 @@ const Scema = mongoose.Schema;
 const TasksScema = new Scema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String,

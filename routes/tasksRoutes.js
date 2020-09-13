@@ -17,7 +17,7 @@ router.post('/login-post', urlEncodedParser, usersController.users_signin_accoun
 
 router.get('/sign-up', usersController.users_signup)
 
-router.post('/sign-up', urlEncodedParser, usersController.signup)
+router.post ('/sign-up', urlEncodedParser, usersController.signup)
 
 router.get('/account/:username', usersController.account)
 

@@ -22,15 +22,11 @@
     <div id="editor" style="height: 500px;">
     </div>
   </div>
-  <!-- <select style="width: 100px;" id='codeLang'>
-    <option value="python">Python</option>
-    <option value="javascript" selected='selected'>Javascript</option>
-</select> -->
   <br>
   <button style="width: 100px;height: 50px;margin-left: 40%;" type="submit" id='submitBtn'>Submit</button>
   <br>
   <br>
-  <table style="width: 70%;margin-left: 15%;">
+  <!-- <table style="width: 70%;margin-left: 15%;">
     <tr style="height: 45px;">
       <th>#</th>
       <th>Input</th>
@@ -49,11 +45,47 @@
             <td id='<%= i %>_ex_output_type' style=" text-align: center;"><%= testsInfo[i].ex_output_type %></td>
       <td style="text-align: center;"><%= testsInfo[i].ex_output %></td>
       <td id='<%= i %>_output' style="text-align: center;""><%= testsInfo[i].output %></td>
-            <td id='<%= i %>_output_type' style=" text-align: center;""><%= testsInfo[i].output_type %></td>
+      <td id='<%= i %>_output_type' style=" text-align: center;""><%= testsInfo[i].output_type %></td>
       <td id='<%= i %>_completed' style="text-align: center;""><%= testsInfo[i].is_completed %></td>
           </tr>
         <% } %>
-        </table>
+        </table> -->
+      <div style="font-size: 23px;">
+        <% for(var i = 0; i < testsInfo.length; i++){ %>
+          <div>
+            <div>Test <%= i + 1 %></div>
+            <div>
+              <span>Input: </span>
+              <span><%= testsInfo[i].input.join(', ') %></span>
+            </div>
+            <div>
+              <span>Expected Output Type: </span>
+              <span><%= testsInfo[i].ex_output_type %></span>
+            </div>
+            <div>
+              <span>Expected Output: </span>
+              <span><%= testsInfo[i].ex_output %></span>
+            </div>
+            <div>
+              <span style="font-weight: bold;">Output: </span>
+              <span id='<%= i %>_output'><%= testsInfo[i].output %></span>
+            </div>
+            <div>
+              <span>Output Type: </span>
+              <span id='<%= i %>_output_type'><%= testsInfo[i].output %></span>
+            </div>
+            <div>
+              <span>Passed: </span>
+              <span id='<%= i %>_is_completed'><%= testsInfo[i].is_completed %></span>
+            </div>
+            <div>
+              <p>Console: </p>
+              <pre id='<%= i %>_full_text'><%= testsInfo[i].full_text %></pre>
+            </div>
+            <hr>
+          </div>
+        <% } %>
+      </div>
       
       <input id='task_tests_id' type="hidden" value="<%= id %>">
       <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -2,6 +2,7 @@ const Tasks = require('../models/tasks.js');
 const Tests = require('../models/tests.js');
 var mongoose = require('mongoose');
 const fs = require('fs');
+const { Z_ERRNO } = require('zlib');
 
 // Inputs & Outputs 
 
@@ -46,7 +47,7 @@ const app_check_code = async (req, res) => {
     let raw_data = await Tests.findOne({_id: id});
 
     let userCode = req.body.code;
-    funcName = userCode.split(' ')[1].split('(')[0];
+    funcName = req.body.title
     saveWrittenCode(String(req.body.code), Object.entries(raw_data.tests[0]).length);
     let resultsOfCode = [];
 
@@ -57,16 +58,22 @@ const app_check_code = async (req, res) => {
             const pyProg = spawnSync('python', ['./users_codes/code.py', ...key.split(',')]);
 
             // Python code checking
+            // console.log(String(Error(pyProg.output[1])));
+
+            // Check error
             if (pyProg.stderr != '') {
                 let errorResult = String(Error(pyProg.stderr))
                 let result = errorResult.split('\n')[errorResult.split('\n').length - 2].trim('\r')
-                resultsOfCode.push({ 
+                resultsOfCode.push({
+                    full_output: String(Error(pyProg.output[2])),
                     output: result,
                     output_type: '-',
                     is_completed: false
                 });
             }
 
+
+            // Check success
             let check = false;
             let data = String(pyProg.output[1]).trim('\n');
             
@@ -75,6 +82,7 @@ const app_check_code = async (req, res) => {
                     check = true;
                 }
                 resultsOfCode.push({ 
+                    full_output: String(pyProg.output[1]),
                     output: data,
                     output_type: typeof(data),
                     is_completed: check
@@ -93,8 +101,15 @@ const app_check_code = async (req, res) => {
                 if (returnedValue == value && typeof(returnedValue) == typeof(value)){
                     check = true
                 }
+                resultsOfCode.push({ 
+                    full_output: returnedValue,
+                    output: returnedValue,
+                    output_type: typeof(returnedValue),
+                    is_completed: check
+                });
             }catch (err) {
                 resultsOfCode.push({ 
+                    full_output: err.message,
                     output: err.message,
                     output_type: '-',
                     is_completed: false
@@ -107,9 +122,10 @@ const app_check_code = async (req, res) => {
     res.json({ result: resultsOfCode })
 }
 
-const app_get_lang = async (req, res) => {
-    res.json({ respond: choosenLang })
+const app_get_config = async (req, res) => {
+    res.json({ lang: choosenLang })
 }
+
 // Saves user-written code
 function saveWrittenCode (userCode, inpCount) {
     // Python code saving
@@ -144,5 +160,5 @@ function saveWrittenCode (userCode, inpCount) {
 module.exports = {
     app_index,
     app_check_code,
-    app_get_lang
+    app_get_config
 }

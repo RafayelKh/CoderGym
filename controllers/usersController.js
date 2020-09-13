@@ -63,6 +63,7 @@ const signup = (req, res) => {
 
 const users_add_task = (req, res) => {
     var title = req.body.title
+    var funcname = req.body.funcname
     var desc = req.body.description
     var task_lang = req.body.language
     var datas = {}
@@ -81,6 +82,7 @@ const users_add_task = (req, res) => {
                 title,
                 description: desc,
                 language: task_lang,
+                funcname: funcname,
                 tests_id: result._id
             })
             new_task.save()
