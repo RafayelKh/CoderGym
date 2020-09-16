@@ -2,10 +2,9 @@ const Tasks = require('../models/tasks.js');
 const Tests = require('../models/tests.js');
 var mongoose = require('mongoose');
 const fs = require('fs');
-const { Z_ERRNO } = require('zlib');
+//const { Z_ERRNO } = require('zlib');
 
 // Inputs & Outputs 
-
 let savedFileName = 'code.js';
 let funcName = '';
 let choosenLang = 'javascript'
@@ -53,12 +52,10 @@ const app_check_code = async (req, res) => {
 
     // Results of tests
     for (const [key, value] of Object.entries(raw_data.tests[0])) {
-        if (choosenLang == 'python'){               
+        if (choosenLang == 'python'){
+            // Python code checking            
             const { spawnSync } = require('child_process');
             const pyProg = spawnSync('python', ['./users_codes/code.py', ...key.split(',')]);
-
-            // Python code checking
-            // console.log(String(Error(pyProg.output[1])));
 
             // Check error
             if (pyProg.stderr != '') {
@@ -71,7 +68,6 @@ const app_check_code = async (req, res) => {
                     is_completed: false
                 });
             }
-
 
             // Check success
             let check = false;
@@ -91,7 +87,42 @@ const app_check_code = async (req, res) => {
             
             choosenLang = 'python'
 
-        }else{
+        } else if (choosenLang == 'java') {
+            try{
+                let check = false;
+
+                // Java code checking
+                const { execSync } = require('child_process');
+                let javac = execSync(`javac users_codes/Code.java`)
+
+                if (String(javac) == ''){
+                    let args = key.split(',').map(elem => {
+                        return elem.trim();
+                    }).join(' ')
+                    let java_code_result = execSync(`java users_codes/Code.java ${args}`)
+    
+                    if (String(java_code_result) == value && typeof(String(java_code_result)) == typeof(value)){
+                        check = true;
+                    }
+
+                    resultsOfCode.push({ 
+                        full_output: String(java_code_result),
+                        output: String(java_code_result),
+                        output_type: typeof(String(java_code_result)),
+                        is_completed: check
+                    });
+                }
+            }catch(err){
+                resultsOfCode.push({
+                    full_output: String(err.stderr),
+                    output: '-',
+                    output_type: '-',
+                    is_completed: false
+                });
+            }
+
+            choosenLang = 'java'
+        } else {
             // Javascript code checking
             try {
                 let test_args = key.split(',').map(elem => { return elem.trim() })
@@ -144,7 +175,17 @@ function saveWrittenCode (userCode, inpCount) {
               console.log('File saved');
             }
           })
-    }else{
+    }else if (choosenLang == 'java') { // Java save code
+        let javaFullCode = `package users_codes;\n\n\nclass Code{\npublic static void main(String[] args) {\n\nSystem.out.println(${funcName}(args)); \n}  static ${userCode} \n}`        
+        fs.writeFileSync(__dirname + '/../users_codes/Code.java', javaFullCode, (err) => {
+            if (err) {
+              console.log(err);
+            }else{
+              console.log('File saved');
+            }
+          })
+
+    } else {
         // Javascript code saving
         fs.writeFileSync(__dirname + '/../users_codes/code.js', userCode.concat(`\n\nmodule.exports = { func: ${funcName} }`), (err) => {
             if (err) {
