@@ -10,32 +10,40 @@
 
 <body>
 
-  <h2 style="text-align:center;">Create Task</h2>
+  <h2 style="text-align:center;">Create Exam</h2>
   <form method="POST" action="/add-task" id="create_task">
-    <input style="padding:10px; display:block; margin: 0 auto" type="text" placeholder="Title" name="title" required> <br>
-    <textarea placeholder="Description" name="description" form="create_task"
-      style="max-width: 300px; max-height:100px; min-height:99px; min-width:299px; padding:10px; display:block; margin: 0 auto" required></textarea> <br>
     <div style="margin: 0 45%">
       <p>Select language</p>
       <input type="radio" name="language" value="javascript" required>
       <label for="javascript">JS</label><br>
       <input type="radio" name="language" value="python" required>
-      <label for="py">Python</label><br>
+      <label for="python">Python</label><br>
       <input type="radio" name="language" value="java" required>
       <label for="java">Java</label><br>
     </div>
-    <h2 style="text-align:center;">Tests</h2>
-    <% for(var i=0; i < 5; i++){ %>
-      <h4 style="padding:5px; margin-left:10px; line-height:0; text-align:center">Test N<%= i+1%></h4>
-      <div style="display:flex; margin-left:28%">
-        
-        <input name="input_test_<%= i %>" id="input_test_<%= i %>" type="text" placeholder="inputs(seperate inputs via ',' comma)" style="padding:10px; display:block; padding-right:10px; margin-bottom:10px; margin-right:15px; width:270px">
-        <input name="output_test_<%= i %>" id="output_test_<%= i %>" type="text" placeholder="output" style="padding:10px; display:block; margin-bottom:10px; width:270px">
+    <div>
+      <div id='clone-block'>
+        <div style="float: left;width: 50%;">
+          <input style="padding:10px; display:block; margin: 0 auto" type="text" placeholder="Title" name="title" required> <br>
+          <textarea placeholder="Description" name="description" form="create_task"
+            style="max-width: 90%; max-height:200px; min-height:200px; min-width:90%; padding:10px; display:block; margin: 0 5%" required></textarea>
+        </div>
+        <div style="float: right;width: 50%;margin-bottom: 15px;">
+          <!-- <h2 style="margin: 0;text-align:center;">Tests</h2> -->
+          <% for(var i=0; i < 5; i++){ %>
+            <h4 style="padding:5px; margin-left:10px; line-height:0; text-align:center;margin: 13px 0px;">Test <%= i+1%></h4>
+            <div>
+              <input name="input_test_<%= i %>" id="input_test_<%= i %>" type="text" placeholder="Inputs (seperate inputs via ',' comma)" style="display: inline;padding:10px; margin: 0 5%; width: 36%;">
+              <input name="output_test_<%= i %>" id="output_test_<%= i %>" type="text" placeholder="Output" style="margin: 0 5%;padding:10px; display:inline; width: 36%;">
+            </div>
+          <% } %>
+        </div>
+        <hr style="width: 100%;">
       </div>
-    <% } %>
-  <input type="submit" id="sub_but" value="Add task" style="padding:10px; display:block; margin: 0 auto">
+      <div class='button-like-div' id='clone-btn'>Add task</div>
+    </div>
+    <input type="submit" id="sub_but" value="Submit Exam" style="padding:10px; display:block; margin: 10px auto">
   </form>
-
       <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
       <script src="/script.js"></script>

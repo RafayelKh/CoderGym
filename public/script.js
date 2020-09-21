@@ -30,6 +30,10 @@ $(function () {
       }
     });
   })
+
+  $('#clone-btn').click(() => {
+    $('#clone-block').clone().insertAfter('#clone-block')
+  })
 })
 
 function setupEditor()

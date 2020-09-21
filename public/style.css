@@ -17,6 +17,25 @@ html,body { margin:0; padding:0; height:100%; width:100%; }
   text-align: center;
 }
 
+.button-like-div {
+    display:inline-block;
+    color:#444;
+    border:1px solid #CCC;
+    background:#DDD;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+    cursor:pointer;
+    vertical-align:middle;
+    max-width: 100px;
+    padding: 5px;
+    text-align: center;
+    margin: 0 48%;
+}
+
+.button-like-div:active {
+  color:red;
+  box-shadow: 0 0 5px -1px rgba(0,0,0,0.6);
+}
+
 .task-list-block {
   margin-top: 50px;
   margin-left: 40%;

@@ -104,7 +104,6 @@ const app_check_code = async (req, res) => {
                     if (String(java_code_result) == value && typeof(String(java_code_result)) == typeof(value)){
                         check = true;
                     }
-
                     resultsOfCode.push({ 
                         full_output: String(java_code_result),
                         output: String(java_code_result),
