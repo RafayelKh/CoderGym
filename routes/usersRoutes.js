@@ -1,5 +1,5 @@
 const express = require('express');
-const usersController = require('../controllers/UsersController')
+const usersController = require('../controllers/usersController')
 const router = express.Router();
 const bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
