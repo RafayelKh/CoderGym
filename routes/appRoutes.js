@@ -9,6 +9,8 @@ router.post('/add', urlencodedParser, appController.app_check_code)
 
 router.post('/getEditor', urlencodedParser, appController.app_get_config)
 
+router.post('/getTask', urlencodedParser, appController.app_get_task)
+
 router.get('/:title', appController.app_index)
 
 

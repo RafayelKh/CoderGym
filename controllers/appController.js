@@ -1,5 +1,6 @@
 const Tasks = require('../models/tasks.js');
 const Tests = require('../models/tests.js');
+const Exams = require('../models/exams.js');
 var mongoose = require('mongoose');
 const fs = require('fs');
 //const { Z_ERRNO } = require('zlib');
@@ -11,39 +12,105 @@ let choosenLang = 'javascript'
 
 const app_index = async (req, res) => {
     try{
-        const title = req.params.title;
-        const all_tasks = await Tasks.find({ 'title': title });
-        choosenLang = all_tasks[0].language
-        let responseTestInfo = [];
-        if (all_tasks[0] != undefined){
-            let raw_data_tests = await Tests.findById(all_tasks[0].tests_id);
+        const examId = req.params.title;
+        const exam = await Exams.findOne({ '_id': examId })
+        choosenLang = exam.language
 
-            for (const [key, value] of Object.entries(raw_data_tests.tests[0])) {
-                responseTestInfo.push({ 
-                    tests_id: raw_data_tests._id,
-                    input: key.split(','),
-                    ex_output: value,
-                    ex_output_type: typeof(value),
-                    output: '-',
-                    is_completed: '-'
-                });
-            }
-            res.render('app/index', { testsInfo: responseTestInfo, id: raw_data_tests._id});
-        }else{
-            res.send('Something went wrong')
-        }
-        
+        // console.log(exam);
+        let eachTaskId = exam.tasks_id.split(',').map(elem => {
+            return elem.trim()
+        });
+        var eachTasks = [];
+        let i = 1;
+            eachTaskId.forEach(elem => {
+                let tasksPromise = new Promise((resolve, reject) => {
+                    Tasks.findOne({ '_id': elem }).sort({ createdAt: 'asc' })
+                    .then(elem => {
+                        resolve(elem)
+                    }).catch(err => {
+                        reject(err)
+                    })
+                })
+                tasksPromise.then(value => {
+                    eachTasks.push(value);
+                    if (i == eachTaskId.length){
+                        let TestsIds = eachTasks.map(elem => {
+                            return elem.tests_id
+                        })
+                        let j = 1;
+
+                        TestsIds.forEach(test_id => {
+                            let testsPromise = new Promise((resolve, reject) => {
+                                Tests.findOne({ '_id': test_id})
+                                .then(elem => {
+                                    resolve(elem)
+                                }).catch(error => {
+                                    reject(error)
+                                })
+                            })
+
+                            testsPromise.then(value => {
+                                if (j == TestsIds.length){
+                                    let result = [];
+                                    let testsInfo = [];
+                                    for(let k = 0; k < Object.keys(value.tests[0]).length; k++){
+                                        result.push({ 
+                                            tasks: eachTasks,
+                                        })
+                                        testsInfo.push({
+                                            tests_id: '-',
+                                            input: ['-'],
+                                            ex_output: '-',
+                                            ex_output_type: '-',
+                                            output: '-',
+                                            is_completed: '-'
+                                        })
+                                    }
+                                
+                                    res.render('app/index', { tasksInfo: result, testsInfo });
+                                }
+                                j++
+                            }).catch(error => {
+                                console.log(error);
+                            })
+                        })
+                    }
+                    i++;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            })
     }catch (err){
         console.log(err)
     }
 }
 
-// AJAX responser
+const app_get_task = (req, res) => {
+    let testID = req.body.test_id
+    let getTests = Tests.findOne({ '_id': testID })
+    .then(result => {
+        let responseTestInfo = []
+        for (const [key, value] of Object.entries(result.tests[0])) {
+            responseTestInfo.push({ 
+                tests_id: result._id,
+                input: key.split(','),
+                ex_output: value,
+                ex_output_type: typeof(value),
+                output: '-',
+                is_completed: false
+            });
+        }
+       res.json({ result: responseTestInfo, id: testID  })
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
+
 const app_check_code = async (req, res) => {
-    const this_task = await Tasks.find({});
     let responseTestInfo = [];
-    var id = mongoose.Types.ObjectId(req.body.test_id)
-    let raw_data = await Tests.findOne({_id: id});
+    let raw_data = await Tests.findOne({ '_id': req.body.test_id});
 
     let userCode = req.body.code;
     funcName = req.body.title
@@ -200,5 +267,6 @@ function saveWrittenCode (userCode, inpCount) {
 module.exports = {
     app_index,
     app_check_code,
+    app_get_task,
     app_get_config
 }

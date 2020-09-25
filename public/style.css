@@ -2,7 +2,7 @@ html,body { margin:0; padding:0; height:100%; width:100%; }
 
 #container {
 	height: 500px;
-	width:auto;
+	width: auto;
   white-space : nowrap; 
   overflow : hidden;
 }
@@ -34,6 +34,37 @@ html,body { margin:0; padding:0; height:100%; width:100%; }
 .button-like-div:active {
   color:red;
   box-shadow: 0 0 5px -1px rgba(0,0,0,0.6);
+}
+
+.tasksBlock{
+  margin: 0;
+  width: 19%;
+  height: 100%;
+  padding-right: 7px;
+  border-right: 1px black solid;
+  display: inline-block;
+  float: left;
+  overflow-y: auto;
+}
+
+.eachTask{
+  margin: 0 0 7px 0;
+  width: 100%;
+  height: 120px;
+  background-color: gainsboro;
+  border: 1px gainsboro solid;
+}
+
+#testBlock{
+  width: 100%;
+  overflow-y: scroll;
+  height: 230px;
+}
+
+.mainBlock{
+  width: 80%;
+  float: right;
+  display: inline-block;
 }
 
 .task-list-block {

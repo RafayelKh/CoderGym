@@ -1,5 +1,4 @@
-const Tasks = require('../models/tasks.js');
-const fs = require('fs');
+const Exams = require('../models/exams.js');
 
 const tasks_index = async (req, res) => {
     const langs = [
@@ -22,12 +21,14 @@ const tasks_index = async (req, res) => {
 
 const tasks_langTasks = async (req, res) => {
     try{
-        const all_tasks = await Tasks.find({ language: req.params.lang });
+        const all_tasks = await Exams.find({ language: req.params.lang });
         let responseTestInfo = [];
-        for (const elem of all_tasks) {
+        for (var i = 0; i < all_tasks.length; i++) {
+            var elem = all_tasks[i]
+            console.log(elem._id);
             responseTestInfo.push({ 
-                title: elem.title,
-                desc: elem.description
+                title: `Exam ${i + 1}`,
+                exam_id: elem._id
             });
         }
         res.render('tasks/langTasks', { allTests: responseTestInfo});

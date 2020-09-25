@@ -9,10 +9,10 @@
 </head>
 
 <body>
-    <h1 id="allTests">Tasks</h1>
+    <h1 id="allTests">Exams</h1>
     <% for(let elem of allTests){ %>
       <div class="task-list-block">
-        <a class="tasks-a-hrefs" href="/tasks/<%= elem.title%>"><%= elem.title %></a>
+        <a class="tasks-a-hrefs" href="/tasks/<%= elem.exam_id %>"><%= elem.title %></a>
       </div>
     <% } %>
       <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

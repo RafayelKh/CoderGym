@@ -17,77 +17,67 @@
 </head>
 
 <body>
-  <!-- Code editor -->
-  <div id='container'>
-    <div id="editor" style="height: 500px;">
-    </div>
+  <div class="tasksBlock">
+    <% for(var i = 0; i < tasksInfo.length; i++){ %>
+      <button id='<%= tasksInfo[i].tasks[i].tests_id %>' class="eachTask">
+          <%= tasksInfo[i].tasks[i].title %>
+      </button>
+    <% } %>
   </div>
-  <br>
-  <button style="width: 100px;height: 50px;margin-left: 40%;" type="submit" id='submitBtn'>Submit</button>
-  <br>
-  <br>
-  <!-- <table style="width: 70%;margin-left: 15%;">
-    <tr style="height: 45px;">
-      <th>#</th>
-      <th>Input</th>
-      <th style="width: 125px;">Expected Output Type</th>
-      <th>Expected Output</th>
-      <th>Output</th>
-      <th>Output type</th>
-      <th>Passed</th>
-    </tr>
-    <% for(var i = 0; i < testsInfo.length; i++){ %>
-    <tr style="height: 35px;">
-      <td style="text-align: center;font-weight: bold;"><%= i + 1 %></td>
-      <td style="text-align: center;"">
-                <%= testsInfo[i].input.join(', ') %>
-            </td>
-            <td id='<%= i %>_ex_output_type' style=" text-align: center;"><%= testsInfo[i].ex_output_type %></td>
-      <td style="text-align: center;"><%= testsInfo[i].ex_output %></td>
-      <td id='<%= i %>_output' style="text-align: center;""><%= testsInfo[i].output %></td>
-      <td id='<%= i %>_output_type' style=" text-align: center;""><%= testsInfo[i].output_type %></td>
-      <td id='<%= i %>_completed' style="text-align: center;""><%= testsInfo[i].is_completed %></td>
-          </tr>
-        <% } %>
-        </table> -->
-      <div style="font-size: 23px;">
-        <% for(var i = 0; i < testsInfo.length; i++){ %>
-          <div>
-            <div>Test <%= i + 1 %></div>
-            <div>
-              <span>Input: </span>
-              <span><%= testsInfo[i].input.join(', ') %></span>
-            </div>
-            <div>
-              <span>Expected Output Type: </span>
-              <span><%= testsInfo[i].ex_output_type %></span>
-            </div>
-            <div>
-              <span>Expected Output: </span>
-              <span><%= testsInfo[i].ex_output %></span>
-            </div>
-            <div>
-              <span style="font-weight: bold;">Output: </span>
-              <span id='<%= i %>_output'><%= testsInfo[i].output %></span>
-            </div>
-            <div>
-              <span>Output Type: </span>
-              <span id='<%= i %>_output_type'><%= testsInfo[i].output %></span>
-            </div>
-            <div>
-              <span>Passed: </span>
-              <span id='<%= i %>_is_completed'><%= testsInfo[i].is_completed %></span>
-            </div>
-            <div>
-              <p>Console: </p>
-              <pre id='<%= i %>_full_text'><%= testsInfo[i].full_text %></pre>
-            </div>
-            <hr>
-          </div>
-        <% } %>
+  <div class="mainBlock">
+    <div id='container'>
+      <div id="editor" style="height: 500px;">
       </div>
+    </div>
+    <button style="display: none;" style="width: 100px;height: 50px;margin-left: 40%;" type="submit" id='submitBtn'>Submit</button>
+    <div id='testBlock' style="display: none;">
+      <% for(var i = 0; i < testsInfo.length; i++){ %>
+        <div>
+          <div>Test <%= i + 1 %></div>
+          <div>
+            <span>Input: </span>
+            <span id='<%= i %>_input'><%= testsInfo[i].input.join(', ') %></span>
+          </div>
+          <div>
+            <span>Expected Output Type: </span>
+            <span id='<%= i %>_ex_type'><%= testsInfo[i].ex_output_type %></span>
+          </div>
+          <div>
+            <span>Expected Output: </span>
+            <span id='<%= i %>_ex_output'><%= testsInfo[i].ex_output %></span>
+          </div>
+          <div>
+            <span style="font-weight: bold;">Output: </span>
+            <span id='<%= i %>_output'><%= testsInfo[i].output %></span>
+          </div>
+          <div>
+            <span>Output Type: </span>
+            <span id='<%= i %>_output_type'><%= testsInfo[i].output %></span>
+          </div>
+          <div>
+            <span>Passed: </span>
+            <span id='<%= i %>_is_completed'><%= testsInfo[i].is_completed %></span>
+          </div>
+          <div>
+            <p>Console: </p>
+            <pre id='<%= i %>_full_text'><%= testsInfo[i].full_text %></pre>
+          </div>
+          <hr>
+        </div>
+      <% } %>
+
+      <input id='task_title' type="hidden" value="">
+      <input id='task_tests_id' type="hidden" value="">
+    </div>
+</div>
+  
+  <!-- <br>
+  <br>
+  <br>
+      <div style="font-size: 23px;"+
+        
+      </div> -->
       
-      <input id='task_tests_id' type="hidden" value="<%= id %>">
       <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.min.js"></script>
