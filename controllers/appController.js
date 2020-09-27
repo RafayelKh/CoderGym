@@ -3,12 +3,11 @@ const Tests = require('../models/tests.js');
 const Exams = require('../models/exams.js');
 var mongoose = require('mongoose');
 const fs = require('fs');
-//const { Z_ERRNO } = require('zlib');
 
-// Inputs & Outputs 
 let savedFileName = 'code.js';
 let funcName = '';
 let choosenLang = 'javascript'
+let successTasks = []
 
 const app_index = async (req, res) => {
     try{
@@ -116,7 +115,7 @@ const app_check_code = async (req, res) => {
     funcName = req.body.title
     saveWrittenCode(String(req.body.code), Object.entries(raw_data.tests[0]).length);
     let resultsOfCode = [];
-
+    let checkSuccess = true;
     // Results of tests
     for (const [key, value] of Object.entries(raw_data.tests[0])) {
         if (choosenLang == 'python'){
@@ -143,6 +142,8 @@ const app_check_code = async (req, res) => {
             if (data != ''){
                 if (data == value && typeof(data) == typeof(value)){
                     check = true;
+                }else{
+                    checkSuccess = false;
                 }
                 resultsOfCode.push({ 
                     full_output: String(pyProg.output[1]),
@@ -215,7 +216,10 @@ const app_check_code = async (req, res) => {
             
         }
     }
-    
+
+    if(checkSuccess){
+        successTasks.push(funcName)
+    }
     res.json({ result: resultsOfCode })
 }
 
